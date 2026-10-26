@@ -101,15 +101,15 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 	//--------------prints map and coordinates-----------------
 	//
 	
-		printf("<  0 > ");
+		printf("< 0 >");
 		for (int i = 0; i<map_size;i++){
-				printf("<%2d > ", i+1);
+				printf(" <%2d >", i+1);
 		}
 		printf("\n");
 		for (int i = 0; i<map_size; i++){
-			printf("<%3d >", i+1);
+			printf("<%2d >", i+1);
 			for (int j = 0; j<map_size;j++){
-				printf("\t%2d ",map[i][j]);
+				printf(" %3d  ",map[i][j]);
 			}
 			printf("\n");
 		}
