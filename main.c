@@ -43,8 +43,5 @@ int main()
 	}
 	printf("all good %d %d %d \n\n" , player_count, penguins_per_player, map_size);
 
-
-
-	end:
 	return 0;
 }
