@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void game_settings(char bot[5], int *player_count, int *penguins_per_player, int *map_size);
 
@@ -6,11 +7,14 @@ void Map_Creator(int map_size, int map[map_size][map_size]);
 
 void Map_Printer(int map_size, int player_count, int penguins_per_player, int map[map_size][map_size]);
 
-
+void Clear_Screen(void);
 
 
 int main()
 {
+	Clear_Screen();
+	//cc main.c
+	//.\a.exe
 
 	//
 	//	im storing next 4 variables in main
@@ -35,12 +39,26 @@ int main()
 //-----------this function prints map (this particular for the first time)-------------
 	Map_Printer(map_size, player_count, penguins_per_player, map);
 
+//
+
+	
+
+
+
+
 
 	return 0;
 }
 
-
-
+//function clearing terminal
+void Clear_Screen(void){
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
+	return;
+}
 
 void game_settings(char bot[5], int *player_count, int *penguins_per_player, int *map_size)
 {
@@ -100,7 +118,7 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 	//
 	//--------------prints map and coordinates-----------------
 	//
-	
+		Clear_Screen();
 		printf("< 0 >");
 		for (int i = 0; i<map_size;i++){
 				printf(" <%2d >", i+1);
