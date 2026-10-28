@@ -3,6 +3,6 @@
 #include <stdio.h>
 int main()
 {
-    printf("niggaballs");
+    printf("niggaballsnigga");
     return 0;
 }
