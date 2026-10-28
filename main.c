@@ -1,14 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//------------this function changes game setting (variables from up)--------------
 void game_settings(char bot[5], int *player_count, int *penguins_per_player, int *map_size);
 
+//--------------this function creates a map and (in the future, places an ice floes and fishes-------------------
 void Map_Creator(int map_size, int map[map_size][map_size]);
 
+//-----------this function prints map (this particular for the first time)-------------
 void Map_Printer(int map_size, int player_count, int penguins_per_player, int map[map_size][map_size]);
 
+//function clearing terminal
 void Clear_Screen(void);
 
+//-----------this functions prints Informations about a game such as: whos turn it it is, what score is and so on
+void Data_Printer();
 
 int main()
 {
@@ -34,13 +40,16 @@ int main()
 	int map[map_size][map_size];
 
 //-----------this function creates map------------------------
+
 	Map_Creator(map_size, map);
 
-//-----------this function prints map (this particular for the first time)-------------
-	Map_Printer(map_size, player_count, penguins_per_player, map);
+//-----------this functions, clear terminal, prints Data, and then second map (this particular for the first time)-------------
 
-//
+	Clear_Screen(); //clear
+	Data_Printer(); //data
+	Map_Printer(map_size, player_count, penguins_per_player, map); //map
 
+//-----------this functions prints Informations about a game such as: whos turn it it is, what score is and so on
 	
 
 
@@ -118,14 +127,13 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 	//
 	//--------------prints map and coordinates-----------------
 	//
-		Clear_Screen();
-		printf("< 0 >");
+		printf("\t%20.20s < 0 >", "");
 		for (int i = 0; i<map_size;i++){
 				printf(" <%2d >", i+1);
 		}
 		printf("\n");
 		for (int i = 0; i<map_size; i++){
-			printf("<%2d >", i+1);
+			printf("\t%20s <%2d >", "", i+1);
 			for (int j = 0; j<map_size;j++){
 				printf(" %3d  ",map[i][j]);
 			}
@@ -134,4 +142,57 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 		printf("all good %d %d %d \n\n" , player_count, penguins_per_player, map_size);
 
 		return;
+}
+
+void Data_Printer(){
+/*
+//	|----------LeaderBoard----------|-------Whos Turn is it---------|-----------All time Highscore----------|
+//	|	540p	Player One			|		>>> Player Two <<<		|			1567p	67%covered			|
+//	|	230p	Player Two			|--------------Phase------------|			1987p	57%covered			|
+//	|	132p	Player Three		|		> Moving Penguins <		|			1109p	56%covered			|
+//	|-------------------------------|-------------------------------|---------------------------------------|
+//							< 0 > < 1 > < 2 > < 3 > < 4 > < 5 > < 6 > < 7 > < 8 > < 9 >
+//							< 1 >   0     0     0     0     0     0     0     0     0  
+//							< 2 >   0     0     0     0     0     0     0     0     0  
+//							< 3 >   0     0     0     0     0     0     0     0     0  
+//							< 4 >   0     0     0     0     0     0     0     0     0  
+//							< 5 >   0     0     0     0     0     0     0     0     0  
+//							< 6 >   0     0     0     0     0     0     0     0     0  
+//							< 7 >   0     0     0     0     0     0     0     0     0  
+//							< 8 >   0     0     0     0     0     0     0     0     0  
+//							< 9 >   0     0     0     0     0     0     0     0     0  
+
+
+printf("|%s|, "Player One") --> |Player One|
+
+printf("|%20s|, "Player One") --> |              Player One|
+%20s 20 means > minimum 20 symbols from left
+
+printf("|%-20s|, "Player One") --> |Player One              |
+%20s 20 means > minimum 20 symbols from right
+
+printf("|%-10.10s|, "Player One") --> |Player One              |
+%-10.10s means > minum 10 symbols from right, maximum 10
+
+*/
+
+char Player_Score_First[] = "Player One";
+char Player_Score_Second[] = "Player Two";
+char Player_Score_Third[] = "Player Three";
+
+char Player_Turn[] = "Player One";
+
+char All_Time_First[] = "1543 78p";
+char All_Time_Second[] = "1893 69p";
+char All_Time_Third[] = "1193 51p";
+
+char Phase_name[]="Moving Penguins";
+
+	printf("\t|----------LeaderBoard----------|-------Whos Turn is it---------|-----All time Highscore--------|\n");
+	printf("\t|     1. %-23.23s|        %-23.23s|        %-23.23s|\n", Player_Score_First, Player_Turn, All_Time_First);
+	printf("\t|     2. %-23.23s|------------Phase--------------|        %-23.23s|\n", Player_Score_Second, All_Time_Second);
+	printf("\t|     3. %-23.23s|        %-23.23s|        %-23.23s|\n", Player_Score_Third, Phase_name, All_Time_Third);
+	printf("\t|-------------------------------|-------------------------------|-------------------------------|\n");
+
+	return;
 }
