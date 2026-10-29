@@ -2,6 +2,18 @@
 #include <stdlib.h>
 #include <time.h>
 
+//defining colours
+#define GREEN	"\033[32m"
+#define RED		"\033[31m"
+#define BLUE	"\033[34m"
+#define ICE		"\033[46m"
+#define CYAN	"\033[96m"
+#define YELLOW	"\033[33m"
+#define GRAY	"\033[90m"
+#define WHITE	"\033[97m"
+#define RESET	"\033[0m"
+
+
 //------------this function changes game setting (variables from up)--------------
 void game_settings(char bot[5], int *player_count, int *penguins_per_player, int *map_size);
 
@@ -62,7 +74,7 @@ int main()
 
 
 
-
+	printf("%s", RESET);
 	return 0;
 }
 
@@ -96,12 +108,13 @@ void game_settings(char bot[5], int *player_count, int *penguins_per_player, int
 
 	while(1==1){ //loop asking if you want to play against a bot
 		printf("Would you like to play against bot? yes/no \n");
-		scanf("%4s", bot);
+		bot = "Yes";
+		//scanf("%4s", bot);
 
 		if (bot[0] == 'Y' || bot[0] == 'y') { //program doesnt care about the whole awnser, it checks only first letter so the length is irrelevant and small spelling mistakes doesnt matter
 			//its a dev shortcat, it changes settings for hardcoded preset
-			*player_count = 2; //amount of players in game
-			*penguins_per_player = 3; // amount of penguins for each player	
+			*player_count = 5; //amount of players in game
+			*penguins_per_player = 4; // amount of penguins for each player	
 			*map_size = (*player_count) * (*penguins_per_player) +3;	
 
 			return; //if awnser correct it finishes program (not implemented yet)
@@ -144,7 +157,7 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 		int yi = 0;
 		//im generating a static ice floes = the map_size (or bigger it can change)
 		//for (int i = 0;i<map_size;i++){
-		for (int i = 0;i<(map_size)*2;i++){
+		for (int i = 0;i<(map_size)*15;i++){
 		
 			Corner = Random(4); //im randomising witch Corner i will change
 			if (Corner == 0 || Corner == 2){ //this if statemant sets corrects variable for each tile
@@ -168,7 +181,7 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 				}
 				else{
 					y = map_size-1;
-					yi=1;
+					yi=-1;
 				}
 			}
 			//
@@ -189,10 +202,67 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 				}
 				goto icefloe;
 			}
-			else map[x][y] = -1;
 
+			//printf("Corner %d\t x:%d, y:%d\t", Corner,x,y);
 
-			printf("%d\t%d\t%d\n", Corner, x, y);
+			island:
+			if (Corner == 0){
+				if (x>0){ //left
+					if (map[x-1][y] == 0){
+						x-=1;
+						goto island;
+					}
+				}
+				if (y>0){ //top
+					if (map[x][y-1] == 0){
+						y-=1;
+						goto island;
+					}
+				}
+			}
+			else if (Corner == 1){
+				if (x<map_size){//right
+					if (map[x+1][y] == 0){
+						x+=1;
+						goto island;
+					}
+				}
+				if (y>0){ //top
+					if (map[x][y-1] == 0){
+						y-=1;
+						goto island;
+					}
+				}
+			}
+			else if (Corner == 2){
+				if (x>0){ //left
+					if (map[x-1][y] == 0){
+						x-=1;
+						goto island;
+					}
+				}
+				if (y<map_size){ //bottom
+					if (map[x][y+1] == 0){
+						y+=1;
+						goto island;
+					}
+				}
+			}
+			else{
+				if (x<map_size){//right
+					if (map[x+1][y] == 0){
+						x+=1;
+						goto island;
+					}
+				}
+				if (y<map_size){ //bottom
+					if (map[x][y+1] == 0){
+						y+=1;
+						goto island;
+					}
+				}
+			}
+			map[x][y] = -1;
 		}
 
 
@@ -205,17 +275,23 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 	//
 	//--------------prints map and coordinates-----------------
 	//
-		printf("\t%20.20s < 0 >", "");
+		printf("%s%35.35s< 0>", CYAN,"");
 		for (int i = 0; i<map_size;i++){
-				printf(" <%2d >", i+1);
+				printf("<%2d>", i+1);
 		}
-		printf("\n");
+		printf("%s\n",RESET);
 		for (int i = 0; i<map_size; i++){
-			printf("\t%20s <%2d >", "", i+1);
+			printf("%s%s%40s<%2d>", "",RESET,CYAN, i+1);
 			for (int j = 0; j<map_size;j++){
-				printf(" %3d  ",map[i][j]);
+				if (map[i][j] == -1){
+					//printf("%s%3d ",ICE,map[i][j]);
+					printf("%s    ",ICE);
+				}
+				else{
+					printf("%s%3d ",RESET,map[i][j]);
+				}
 			}
-			printf("\n");
+			printf("%s\n",RESET);
 		}
 		return;
 }
@@ -252,9 +328,15 @@ printf("|%-10.10s|, "Player One") --> |Player One              |
 
 */
 
-char Player_Score_First[] = "Player One";
-char Player_Score_Second[] = "Player Two";
-char Player_Score_Third[] = "Player Three";
+char Player_One[] = "\033[32mPlayer One";
+char Player_Two[] = "\033[31mPlayer Two";
+char Player_Three[] = "\033[35mPlayer Three";
+char Player_Four[] = "\033[34mPlayer Three";
+
+
+char *Player_Score_First = Player_One;
+char *Player_Score_Second = Player_Two;
+char *Player_Score_Third = Player_Three;
 
 char Player_Turn[] = "Player One";
 
@@ -263,11 +345,11 @@ char All_Time_Second[] = "1893 69p";
 char All_Time_Third[] = "1193 51p";
 
 char Phase_name[]="Moving Penguins";
-
-	printf("\t|----------LeaderBoard----------|-------Whos Turn is it---------|-----All time Highscore--------|\n");
-	printf("\t|     1. %-23.23s|        %-23.23s|        %-23.23s|\n", Player_Score_First, Player_Turn, All_Time_First);
-	printf("\t|     2. %-23.23s|------------Phase--------------|        %-23.23s|\n", Player_Score_Second, All_Time_Second);
-	printf("\t|     3. %-23.23s|        %-23.23s|        %-23.23s|\n", Player_Score_Third, Phase_name, All_Time_Third);
+	printf("test");
+	printf("\t%s|----------%sLeaderBoard%s----------|-------%sWhos Turn is it%s---------|-----%sAll time Highscore%s--------|\n",GRAY,YELLOW,GRAY,YELLOW,GRAY,YELLOW,GRAY);
+	printf("\t%s|     %s1. %-28.28s%s|        %s%-23.23s%s|        %s%-23.23s%s|\n", GRAY,WHITE,Player_Score_First,GRAY, WHITE, Player_Turn,GRAY, WHITE,All_Time_First,GRAY);
+	printf("\t%s|     %s2. %-28.28s%s|------------%sPhase%s--------------|        %s%-23.23s%s|\n",GRAY,WHITE,Player_Score_Second,GRAY,YELLOW,GRAY,WHITE, All_Time_Second,GRAY);
+	printf("\t%s|     %s3. %-28.28s%s|        %s%-23.23s%s|        %s%-23.23s%s|\n", GRAY,WHITE,Player_Score_Third,GRAY,WHITE, Phase_name,GRAY,WHITE,All_Time_Third,GRAY);
 	printf("\t|-------------------------------|-------------------------------|-------------------------------|\n");
 
 	return;
