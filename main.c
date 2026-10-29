@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 //------------this function changes game setting (variables from up)--------------
 void game_settings(char bot[5], int *player_count, int *penguins_per_player, int *map_size);
@@ -10,14 +11,20 @@ void Map_Creator(int map_size, int map[map_size][map_size]);
 //-----------this function prints map (this particular for the first time)-------------
 void Map_Printer(int map_size, int player_count, int penguins_per_player, int map[map_size][map_size]);
 
-//function clearing terminal
+//--------function clearing terminal, uses stdlib (system command)
 void Clear_Screen(void);
 
 //-----------this functions prints Informations about a game such as: whos turn it it is, what score is and so on
 void Data_Printer();
 
+//--------------This function uses time.h and stdlib.h library and generates random number up to given variable
+int Random(int Random_Up_To);
+
 int main()
 {
+	srand(time(NULL));
+
+
 	Clear_Screen();
 	//cc main.c
 	//.\a.exe
@@ -59,13 +66,22 @@ int main()
 	return 0;
 }
 
+//random number gen funcitons
+int Random(int Random_Up_To){
+	if (Random_Up_To<=0) return 0;
+	return rand()%(Random_Up_To);
+}
+
+
 //function clearing terminal
 void Clear_Screen(void){
-#ifdef _WIN32
+/*#ifdef _WIN32
 	system("cls");
 #else
 	system("clear");
 #endif
+*/
+printf("Clear\n");
 	return;
 }
 
@@ -76,7 +92,7 @@ void game_settings(char bot[5], int *player_count, int *penguins_per_player, int
 	//int penguins_per_player = 0; // amount of penguins for each player	
 	//int map_size = 0; //size of a map (player_count*penguins_per_player + 5)
 
-	printf("v2");
+	//printf("v2\n");
 
 	while(1==1){ //loop asking if you want to play against a bot
 		printf("Would you like to play against bot? yes/no \n");
@@ -120,6 +136,68 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 			}
 		}
 
+	// parametres for ice floe generator
+		int Corner=0; //selecred Corner
+		int x = 0; // position of x change
+		int y = 0; // position of y change
+		int xi = 0; // if tile is occupied it will change by this variable and try again
+		int yi = 0;
+		//im generating a static ice floes = the map_size (or bigger it can change)
+		//for (int i = 0;i<map_size;i++){
+		for (int i = 0;i<(map_size)*2;i++){
+		
+			Corner = Random(4); //im randomising witch Corner i will change
+			if (Corner == 0 || Corner == 2){ //this if statemant sets corrects variable for each tile
+				x = 0;	//coordinate variable
+				xi=1;	//change if neseseraly
+				if (Corner == 0){
+					y = 0;
+					yi=1;
+				}
+				else{
+					y = map_size-1;
+					yi=-1;
+				}
+			}
+			else{
+				x = map_size-1;
+				xi=-1;
+				if (Corner == 1){
+					y = 0;
+					yi=1;
+				}
+				else{
+					y = map_size-1;
+					yi=1;
+				}
+			}
+			//
+			//	0(0,0)1,1			1(map_size,0)-1,1
+			//
+			//	2(0,map_size)1,-1	3(map_size,map_size)-1,-1
+			//
+
+			icefloe:
+
+			if (map[x][y]==-1){
+				int temp =Random(2);
+				if (temp == 0){
+						x+=xi;
+				}
+				else{
+					y+=yi;
+				}
+				goto icefloe;
+			}
+			else map[x][y] = -1;
+
+
+			printf("%d\t%d\t%d\n", Corner, x, y);
+		}
+
+
+
+
 	return;
 }
 
@@ -139,8 +217,6 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 			}
 			printf("\n");
 		}
-		printf("all good %d %d %d \n\n" , player_count, penguins_per_player, map_size);
-
 		return;
 }
 
