@@ -23,11 +23,12 @@ void Map_Creator(int map_size, int map[map_size][map_size]);
 //-----------this function prints map (this particular for the first time)-------------
 void Map_Printer(int map_size, int player_count, int penguins_per_player, int map[map_size][map_size]);
 
+//-----------this functions prints Informations about a game such as: whos turn it it is, what score is and so on
+void Data_Printer();
+
 //--------function clearing terminal, uses stdlib (system command)
 void Clear_Screen(void);
 
-//-----------this functions prints Informations about a game such as: whos turn it it is, what score is and so on
-void Data_Printer();
 
 //--------------This function uses time.h and stdlib.h library and generates random number up to given variable
 int Random(int Random_Up_To);
@@ -35,8 +36,7 @@ int Random(int Random_Up_To);
 int main()
 {
 	srand(time(NULL));
-
-
+	
 	Clear_Screen();
 	//cc main.c
 	//.\a.exe
@@ -87,13 +87,13 @@ int Random(int Random_Up_To){
 
 //function clearing terminal
 void Clear_Screen(void){
-/*#ifdef _WIN32
-	system("cls");
-#else
-	system("clear");
-#endif
-*/
-printf("Clear\n");
+	/*#ifdef _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
+	//*/
+	printf("Clear\n");
 	return;
 }
 
@@ -116,7 +116,10 @@ void game_settings(char bot[5], int *player_count, int *penguins_per_player, int
 			*player_count = 5; //amount of players in game
 			*penguins_per_player = 4; // amount of penguins for each player	
 			*map_size = (*player_count) * (*penguins_per_player) +3;	
-
+			if (*map_size%2==1){
+				*map_size+=1;
+				printf("prawda %d", *map_size);
+			}
 			return; //if awnser correct it finishes program (not implemented yet)
 		}
 		else if (bot[0] == 'N' || bot[0] == 'n') {
@@ -264,9 +267,17 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 			}
 			map[x][y] = -1;
 		}
-
-
-
+	/*
+		int temp = 0;
+		int swap_v = map_size-1;
+		int add_v=(map_size)/2;
+		for (int i=0;i<(swap_v/2);i++){
+			for (int j=0;j<(swap_v);j++){
+				temp=map[i][j];
+				map[i][j]=map[i+add_v][j];
+				map[i+add_v][j]=temp;
+			}
+		}*/
 
 	return;
 }
