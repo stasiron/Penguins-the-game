@@ -224,7 +224,7 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 				}
 			}
 			else if (Corner == 1){
-				if (x<map_size){//right
+				if (x<map_size-1){//right
 					if (map[x+1][y] == 0){
 						x+=1;
 						goto island;
@@ -252,13 +252,13 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 				}
 			}
 			else{
-				if (x<map_size){//right
+				if (x<map_size-1){//right
 					if (map[x+1][y] == 0){
 						x+=1;
 						goto island;
 					}
 				}
-				if (y<map_size){ //bottom
+				if (y<map_size-1){ //bottom
 					if (map[x][y+1] == 0){
 						y+=1;
 						goto island;
@@ -267,9 +267,9 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 			}
 			map[x][y] = -1;
 		}
-	/*
+	//
 		int temp = 0;
-		int swap_v = map_size-1;
+		int swap_v = map_size;
 		int add_v=(map_size)/2;
 		for (int i=0;i<(swap_v/2);i++){
 			for (int j=0;j<(swap_v);j++){
@@ -277,8 +277,15 @@ void Map_Creator(int map_size, int map[map_size][map_size]){
 				map[i][j]=map[i+add_v][j];
 				map[i+add_v][j]=temp;
 			}
-		}*/
+		}//*/
 
+		for (int i=0;i<(swap_v);i++){
+			for (int j=0;j<(swap_v/2);j++){
+				temp=map[i][j];
+				map[i][j]=map[i][j+add_v];
+				map[i][j+add_v]=temp;
+			}
+		}//*/
 	return;
 }
 
@@ -286,7 +293,7 @@ void Map_Printer(int map_size, int player_count, int penguins_per_player, int ma
 	//
 	//--------------prints map and coordinates-----------------
 	//
-		printf("%s%35.35s< 0>", CYAN,"");
+		printf("%s%35.35s< 0>", CYAN,"");   
 		for (int i = 0; i<map_size;i++){
 				printf("<%2d>", i+1);
 		}
