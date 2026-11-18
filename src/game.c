@@ -1,10 +1,14 @@
-//ten plik bedzie odpowiadal za stan gry, (plansza, gracze, faza, czyja tura) prebieg tury, przyjscie z rozstawienia do ruchow, wylonienie zwyciezcy.
+// game.c - the game flow that connects all the other modules:
+// game state (board, players, phase, whose turn it is), the course of a turn,
+// switching from the placement phase to the movement phase and choosing the winner.
+// Task list: GitHub issue #5.
 
-//przebieg gry ktory laczy powyzej
+#include "game.h"
 
-//struktura stanu gry: plansza faza i czyja tura
-//petla fazy rozstawiania
-//petla fazy ruchow
-//wykonanie ruchu zapytaj rules czy wolno, potem zmien board i dodaj punkty w player
-//przejscie do nastepnego gracza (pomija tych bez ruchu)
-//wylowienie zwyciezcy
+// TODO (issue #5):
+// - game state struct: board, players, phase, current turn
+// - placement phase loop
+// - movement phase loop
+// - make a move: check it in rules -> update the board -> add points to the player
+// - switch to the next player (skip players with no moves)
+// - determine the winner

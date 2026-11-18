@@ -1,7 +1,15 @@
-//Pobieranie decyzji gracza, wspolrzedne z klawiatury albo klikniec. Do tego sprawdzaniee czy wejsie ma sensowny format
+// input.c - getting decisions from the human player:
+// field coordinates from the keyboard (later also mouse clicks in the SDL version)
+// and checking that the input has a sensible format.
+// It does NOT check the game rules - that is done in rules.c.
+// Task list: GitHub issue #1.
 
-//pobieranie decyzji od czlowieka
-//wczytywanie wspolrzednyuch pola
-//wczytywanie ruchu (skad i dokad)
-//oblusga zlych danych (litera zamiastr liczby, pusta linia)
-//w wersji SDL zamiana klikniecia na wspolrzedne pola
+#include "input.h"
+
+// TODO (issue #1):
+// - read the game settings: mode, number of players, number of penguins, map size, player names
+//   (code ready in READ() on branch "mikolaj" - not listed in issue #1 yet)
+// - read field coordinates
+// - read a move (from -> to)
+// - handle invalid input (a letter instead of a number, an empty line)
+// - (later) convert an SDL click to field coordinates
