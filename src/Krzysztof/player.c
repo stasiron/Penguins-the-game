@@ -1,5 +1,5 @@
-//struktora gracza, (id, nukmer, wynik) dodawanie punktow
+// Player structure (id, name/number, score), adding points
 
-// struktora gracza, (id, nukmer, wynik) ile pingwinow do postawienia
-//tworzenie gracza
-//dodawanie punktow
+// Player structure (id, name/number, score, how many penguins left to place)
+// Creating a player
+// Adding points
